@@ -1,40 +1,133 @@
-HEAD
-# gr-latest
+# GR-Form Application
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Overview
 
-## Getting Started
+This is a full-stack **Next.js 15** application with a **MySQL** database, designed for managing Goods Receipt (GR) forms and inspection reports. It allows multiple users to create, submit, and review inspection data dynamically.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 15 Full-Stack App**: API routes for backend logic.
+- **MySQL Database**: Stores GR form details and inspection reports.
+- **Dynamic Routing**: Redirects users based on report IDs.
+- **State Persistence**: Uses `localStorage` to maintain form states.
+- **Tailwind CSS**: For modern and responsive UI design.
+
+## Project Structure
+
+```
+├── .next/                   # Next.js build output
+├── app/
+│   ├── api/                 # API routes
+│   │   ├── getItems/        # Fetch items from database
+│   │   ├── saveDynamic/     # Save dynamic data
+│   │   └── saveForm/        # Save form data
+│   ├── GR-Form/             # GR form main page
+│   ├── inspection/          # Dynamic inspection pages
+│   │   └── [reportId]/      # Dynamic report routing
+│   ├── globals.css          # Global styles
+│   ├── layout.jsx           # Main layout component
+│   └── page.jsx             # Home page
+├── components/
+│   ├── component/           # Custom form components
+│   │   ├── Accessories.jsx  # Accessories input table
+│   │   ├── ItemTable.jsx    # Item details table
+│   │   └── Remarks.jsx      # Remarks input
+│   └── ui/
+│       └── button.jsx       # Custom button component
+├── lib/
+│   └── utils.js             # Utility functions
+├── server/
+│   ├── config.js            # Server configuration
+│   ├── db/
+│   │   └── dbConnection.js  # Database connection setup
+│   └── models/
+│       └── inspectionReportModel.js  # Database model
+├── public/                  # Static assets
+├── styles/                  # Additional styles
+├── .gitignore               # Git ignore file
+├── .vscode/                 # VS Code settings
+│   └── extensions.json
+├── jsconfig.json            # JS config for Next.js
+├── next.config.mjs          # Next.js configuration
+├── package.json             # Project dependencies
+├── postcss.config.mjs       # PostCSS config for Tailwind
+├── README.md                # Project documentation
+├── tailwind.config.mjs      # Tailwind CSS configuration
+└── LICENSE                  # License file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js (Latest LTS version)
+- MySQL Database
+- Git
 
-## Learn More
+### Setup
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**
+   ```sh
+   git clone https://github.com/your-username/gr-latest.git
+   cd gr-latest
+   ```
+2. **Install dependencies**
+   ```sh
+   npm install
+   ```
+3. **Configure environment variables**
+   - Create a `.env.local` file in the root directory.
+   - Add database credentials:
+     ```sh
+     Database username and password
+     ```
+4. **Set up the database**
+   ```sh
+   In Command Prompt
+   ```
+5. **Run the development server**
+   ```sh
+   npm run dev
+   ```
+   Visit `http://localhost:3000` in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Navigate to `http://localhost:3000/GR-Form` to create a new GR form.
+- Fill in the required fields and submit.
+- Click **Next** to proceed to inspection.
+- Data is dynamically saved and retrieved based on the **report ID**.
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Build the project:
+   ```sh
+   npm run build
+   ```
+2. Start the production server:
+   ```sh
+   npm start
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
->>>>>>> 83c08c5 (Initial commit)
+## Contributing
+
+1. Fork the repository.
+2. Create a new branch (`git checko``ut -b feature-name`).
+3. Commit your changes (`git commit -m 'Add new feature'`).
+4. Push to the branch (`git push origin feature-name`).
+5. Open a Pull Request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Future Updates
+
+- Implement authentication & role-based access.
+- Add export functionality for reports.
+- Improve error handling & validation.
+
+---
+
+Feel free to contribute or suggest improvements! 🚀
+
