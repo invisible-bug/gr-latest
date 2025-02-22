@@ -117,10 +117,6 @@ This is a full-stack **Next.js 15** application with a **MySQL** database, desig
 4. Push to the branch (`git push origin feature-name`).
 5. Open a Pull Request.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
 ## Future Updates
 
 - Implement authentication & role-based access.
