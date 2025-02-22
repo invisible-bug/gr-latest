@@ -1,0 +1,34 @@
+{
+    "grNo": "45645634534",
+    "grDate": "2025-01-30",
+    "poNo": "45645634534",
+    "poDate": "2025-02-04",
+    "project": "4564563",
+    "vendor": "4564",
+    "items": [
+        {
+            "partNo": "456453",
+            "description": "4545",
+            "qty": "4",
+            "itemSlNo": "456",
+            "make": "54645",
+            "mpnSAP": "57",
+            "mpnItemLabel": "57",
+            "ds": true,
+            "coc": true,
+            "tmr": false,
+            "inv": false,
+            "boe": false,
+            "awb": false,
+            "po": false,
+            "beCoc": false
+        }
+    ],
+    "accessories": [
+        {
+            "description": "345543",
+            "partNo": "453",
+            "qty": "454"
+        }
+    ]
+}
