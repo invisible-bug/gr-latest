@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Remarks from "@/components/component/Remarks";
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from "next/navigation";
 
 export default function InspectionPage() {
   const router = useRouter();
-  const { reportId } = useParams(); 
+  const { reportId } = useParams();
 
   console.log("Report ID:", reportId); // Debugging
 
@@ -16,6 +16,18 @@ export default function InspectionPage() {
   const [loading, setLoading] = useState(true);
   const [dimensionRows, setDimensionRows] = useState([]);
   const [remarks, setRemarks] = useState([]);
+
+  // State for Inspection Details
+  const [inspectionDetails, setInspectionDetails] = useState({
+    inspectedBy: "",
+    staffNumber: "",
+    inspectionDate: "",
+  });
+
+  // Handle inspection details change
+  const handleInspectionDetailsChange = (details) => {
+    setInspectionDetails(details);
+  };
 
   // Fetch Items and Generate Dimension Rows
   useEffect(() => {
@@ -49,13 +61,13 @@ export default function InspectionPage() {
   }, [reportId]);
 
   useEffect(() => {
-    const formData = localStorage.getItem('formData');
+    const formData = localStorage.getItem("formData");
     if (!formData) {
-      router.replace('/GR-Form');  // Redirect to the home page or any other page if form data is not present
+      router.replace("/GR-Form"); // Redirect to the home page or any other page if form data is not present
     }
 
-    const savedDimensionRows = localStorage.getItem('dimensionRows');
-    const savedRemarks = localStorage.getItem('remarks');
+    const savedDimensionRows = localStorage.getItem("dimensionRows");
+    const savedRemarks = localStorage.getItem("remarks");
 
     if (savedDimensionRows) {
       setDimensionRows(JSON.parse(savedDimensionRows));
@@ -114,14 +126,27 @@ export default function InspectionPage() {
 
   // Handle Submit
   const handleSubmit = async () => {
+    // Validate inspection details
+    if (
+      !inspectionDetails.inspectedBy ||
+      !inspectionDetails.staffNumber ||
+      !inspectionDetails.inspectionDate
+    ) {
+      alert("Please fill out all inspection details.");
+      return;
+    }
+
     // Filter out empty remarks
-    const filteredRemarks = remarks.filter(remark => remark.observation.trim() !== "");
+    const filteredRemarks = remarks.filter(
+      (remark) => remark.observation.trim() !== ""
+    );
 
     // Prepare form data
     const formData = {
       reportId: reportId,
       dimensionRows,
-      remarks: filteredRemarks // Use filtered remarks
+      remarks: filteredRemarks, // Use filtered remarks
+      inspectionDetails, // Add inspection details
     };
 
     console.log("Form Submitted:", formData);
@@ -139,21 +164,24 @@ export default function InspectionPage() {
         alert("Data saved successfully");
 
         // Clear the data from local storage
-        localStorage.removeItem('formData');
-        localStorage.removeItem('reportId');
-        localStorage.removeItem('isCreateDisabled');
-        localStorage.removeItem('dimensionRows');
-        localStorage.removeItem('remarks');
+        localStorage.removeItem("formData");
+        localStorage.removeItem("reportId");
+        localStorage.removeItem("isCreateDisabled");
+        localStorage.removeItem("dimensionRows");
+        localStorage.removeItem("remarks");
 
         // Clear the input fields by resetting the state variables
         setItems([]);
         setDimensionRows([]);
         setRemarks([]);
-        // Optionally, you can also reset the loading state
-        setLoading(false);
+        setInspectionDetails({
+          inspectedBy: "",
+          staffNumber: "",
+          inspectionDate: "",
+        });
 
         // Redirect to the GR-Form page without adding to browser history
-        router.replace('/'); // Edited
+        router.replace("/"); // Edited
       } else {
         console.error("Failed to submit form:", response.statusText);
       }
@@ -174,12 +202,16 @@ export default function InspectionPage() {
     setItems([]);
     setDimensionRows([]);
     setRemarks([]);
-    localStorage.removeItem('formData');  // Clear form data from local storage
-    localStorage.removeItem('reportId');  // Clear reportId from local storage
-    localStorage.removeItem('isCreateDisabled');  // Clear Create button state from local storage
-    localStorage.removeItem('dimensionRows');  // Clear dimension rows from local storage
-    localStorage.removeItem('remarks');  // Clear remarks from local storage
-    // router.push('/GR-Form');  // Redirect to the home page or any other page
+    setInspectionDetails({
+      inspectedBy: "",
+      staffNumber: "",
+      inspectionDate: "",
+    });
+    localStorage.removeItem("formData"); // Clear form data from local storage
+    localStorage.removeItem("reportId"); // Clear reportId from local storage
+    localStorage.removeItem("isCreateDisabled"); // Clear Create button state from local storage
+    localStorage.removeItem("dimensionRows"); // Clear dimension rows from local storage
+    localStorage.removeItem("remarks"); // Clear remarks from local storage
   };
 
   return (
@@ -308,7 +340,11 @@ export default function InspectionPage() {
       </section>
 
       {/* Remarks Table */}
-      <Remarks remarks={remarks} setRemarks={setRemarks} />
+      <Remarks
+        remarks={remarks}
+        setRemarks={setRemarks}
+        onInspectionDetailsChange={handleInspectionDetailsChange}
+      />
 
       {/* Submit Button */}
       <div className="text-center mt-10 mb-8">

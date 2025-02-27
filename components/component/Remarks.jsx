@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-export default function Remarks({ remarks, setRemarks }) {
+export default function Remarks({ remarks, setRemarks, onInspectionDetailsChange }) {
   // States for Date of MFG, Date of Expiry, and Shelf Life
   const [mfgDate, setMfgDate] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [shelfLife, setShelfLife] = useState(0);
+
+  // States for Inspection Details
+  const [inspectedBy, setInspectedBy] = useState("");
+  const [staffNumber, setStaffNumber] = useState("");
+  const [inspectionDate, setInspectionDate] = useState("");
 
   // Add a new row
   const addRemarkRow = () => {
@@ -53,8 +58,14 @@ export default function Remarks({ remarks, setRemarks }) {
     }
   }, [setRemarks, remarks, shelfLife]);
 
+  // Notify parent component of inspection details changes
+  useEffect(() => {
+    onInspectionDetailsChange({ inspectedBy, staffNumber, inspectionDate });
+  }, [inspectedBy, staffNumber, inspectionDate]);
+
   return (
     <section className="w-1/2 mx-auto mt-12">
+      {/* Existing Remarks Table */}
       <h2 className="text-xl font-semibold mb-6 text-center">Remarks</h2>
       <table className="table-auto w-full border-collapse border border-gray-300">
         <thead>
@@ -143,6 +154,51 @@ export default function Remarks({ remarks, setRemarks }) {
               readOnly
               className="w-20 text-center p-2 border rounded-md bg-gray-200"
               placeholder="Shelf life in months"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Section for Inspection Details */}
+      <section className="mt-14">
+        <h3 className="text-xl font-semibold mb-5 text-center">Inspection Details</h3>
+        <div className="flex justify-evenly">
+          <div className="">
+            <label htmlFor="inspectedBy" className="block text-md font-semibold mb-2">
+              Inspected By:
+            </label>
+            <input
+              type="text"
+              id="inspectedBy"
+              value={inspectedBy}
+              onChange={(e) => setInspectedBy(e.target.value)}
+              className="w-36 p-2 border rounded-md"
+            />
+          </div>
+
+          <div className="">
+            <label htmlFor="staffNumber" className="block text-md font-semibold mb-2">
+              Staff Number:
+            </label>
+            <input
+              type="text"
+              id="staffNumber"
+              value={staffNumber}
+              onChange={(e) => setStaffNumber(e.target.value)}
+              className="w-36 p-2 border rounded-md"
+            />
+          </div>
+
+          <div className="text-center">
+            <label htmlFor="inspectionDate" className="block text-md font-semibold mb-2">
+              Date:
+            </label>
+            <input
+              type="date"
+              id="inspectionDate"
+              value={inspectionDate}
+              onChange={(e) => setInspectionDate(e.target.value)}
+              className="w-36 text-center p-2 border rounded-md"
             />
           </div>
         </div>
