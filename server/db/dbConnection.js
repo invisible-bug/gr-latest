@@ -6,6 +6,7 @@ const db = createConnection({
   user: DB_USER,
   password: DB_PASSWORD,
   database: DB_NAME,
+  port: 3307
 });
 
 db.connect((err) => {

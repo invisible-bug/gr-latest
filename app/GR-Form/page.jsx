@@ -114,20 +114,33 @@ export default function Page() {
     const savedFormData = localStorage.getItem("formData");
     if (savedFormData) {
       const formData = JSON.parse(savedFormData);
-      setGrNo(formData.grNo || "");
-      setGrDate(formData.grDate || "");
-      setPoNo(formData.poNo || "");
-      setPoDate(formData.poDate || "");
-      setProject(formData.project || "");
-      setVendor(formData.vendor || "");
-      setItems(formData.items && Array.isArray(formData.items) ? formData.items : [{ partNo: "", description: "", qty: "" }]);
-      setAccessories(formData.accessories && Array.isArray(formData.accessories) ? formData.accessories : [{ description: "", partNo: "", qty: "" }]);
+  
+      setGrNo(formData.grNo ?? "");  // Ensure it's always a string
+      setGrDate(formData.grDate ?? "");
+      setPoNo(formData.poNo ?? "");
+      setPoDate(formData.poDate ?? "");
+      setProject(formData.project ?? "");
+      setVendor(formData.vendor ?? "");
+  
+      // Ensure items and accessories are always arrays
+      setItems(Array.isArray(formData.items) ? formData.items.map(item => ({
+        partNo: item.partNo ?? "",
+        description: item.description ?? "",
+        qty: item.qty ?? ""
+      })) : [{ partNo: "", description: "", qty: "" }]);
+  
+      setAccessories(Array.isArray(formData.accessories) ? formData.accessories.map(acc => ({
+        description: acc.description ?? "",
+        partNo: acc.partNo ?? "",
+        qty: acc.qty ?? ""
+      })) : [{ description: "", partNo: "", qty: "" }]);
     }
-
+  
     // Restore button states
     setIsCreateDisabled(localStorage.getItem("isCreateDisabled") === "true");
     setIsNextDisabled(localStorage.getItem("isNextDisabled") === "true");
   }, []);
+  
 
   return (
     <div className="mx-auto mt-5 p-6">

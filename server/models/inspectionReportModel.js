@@ -20,8 +20,11 @@ const insertInspectionReport = (grNo, poNo, grDate, project, vendor) => {
 // Insert Item Details
 const insertItemDetails = (inspectionReportId, items) => {
   return new Promise((resolve, reject) => {
-    const query =
-      "INSERT INTO item_details (report_id, part_no, description, qty, item_sl_no, make, mpn_sap, mpn_item_label, ds, coc, tmr, inv, boe, awb, po, be_coc) VALUES ?";
+    const query = `
+      INSERT INTO item_details 
+      (report_id, part_no, description, qty, item_sl_no, make, mpn_sap, mpn_item_label, 
+      ds, coc, tmr, inv, boe, awb, po, be_coc) 
+      VALUES ?`;
 
     const itemValues = items.map((item) => [
       inspectionReportId,
@@ -53,6 +56,7 @@ const insertItemDetails = (inspectionReportId, items) => {
     });
   });
 };
+
 
 // Insert Accessories Details
 const insertAccessoriesDetails = (reportId, accessories) => {
